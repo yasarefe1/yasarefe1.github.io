@@ -1,4 +1,4 @@
-// AOS Animasyonları
+// AOS başlat
 AOS.init({
   duration: 1000,
   easing: 'ease-in-out',
@@ -26,17 +26,15 @@ const animateCounter = (start, end) => {
 
 // Sayacı güncelle
 const updateCounterDisplay = () => {
-  animateCounter(counterValue - 1, counterValue);
-};
-
-// Sayfa yüklendiğinde göster
-window.onload = () => {
   if (counterValue > 0) {
-    updateCounterDisplay();
+    animateCounter(counterValue - 1, counterValue);
   } else {
     counterElement.textContent = counterValue;
   }
 };
+
+// Sayfa yüklendiğinde göster
+window.onload = updateCounterDisplay;
 
 // Waitlist formu
 document.getElementById('waitlist-form').addEventListener('submit', function(e) {
@@ -51,7 +49,7 @@ document.getElementById('waitlist-form').addEventListener('submit', function(e) 
     return;
   }
 
-  // Form gönder
+  // Form gönder (AJAX ile, sayfa yenilenmeden)
   fetch(this.action, {
     method: 'POST',
     body: new FormData(this),
@@ -59,17 +57,22 @@ document.getElementById('waitlist-form').addEventListener('submit', function(e) 
       'Accept': 'application/json'
     }
   })
-  .then(() => {
-    // Sayacı artır
-    counterValue += 1;
-    localStorage.setItem('waitlistCount', counterValue);
-    animateCounter(counterValue - 1, counterValue); // Ekranı animasyonlu güncelle
+  .then(response => {
+    if (response.ok) {
+      // Sayacı artır
+      counterValue += 1;
+      localStorage.setItem('waitlistCount', counterValue);
+      animateCounter(counterValue - 1, counterValue); // Ekranı animasyonlu güncelle
 
-    document.getElementById('notification').style.display = 'block';
-    document.getElementById('error').style.display = 'none';
-    this.reset();
+      document.getElementById('notification').style.display = 'block';
+      document.getElementById('error').style.display = 'none';
+      this.reset();
+    } else {
+      throw new Error('Form gönderilemedi');
+    }
   })
-  .catch(() => {
+  .catch(error => {
     alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+    console.error('Hata:', error);
   });
 });
