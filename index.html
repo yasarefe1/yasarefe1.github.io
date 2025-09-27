@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasaref Waitlist - Erken Erişim</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .hero { padding: 100px 0; color: white; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; animation: fadeInUp 1s ease; }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; animation: fadeInUp 1s ease 0.2s both; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .form-control { border-radius: 50px; padding: 15px 20px; font-size: 1.1rem; }
+        .btn-primary { background: #ff6b6b; border: none; border-radius: 50px; padding: 15px 40px; font-size: 1.1rem; transition: transform 0.3s; }
+        .btn-primary:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1>Hey, Harika Bir Şey Geliyor!</h1>
+                    <p>Yasaref projesiyle erken erişim için bekleme listesine katıl. E-posta'nı bırak, ilk haberi sen al.</p>
+                    <!-- Mailchimp Form Entegrasyonu (Ücretsiz hesap aç, formu oluştur, action URL'ini buraya koy) -->
+                    <form action="https://your-mailchimp-form-url-goes-here" method="post" novalidate class="needs-validation">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" name="EMAIL" placeholder="E-posta adresin" required>
+                            <button class="btn btn-primary" type="submit">Katıl!</button>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="privacy" required>
+                            <label class="form-check-label small" for="privacy">Gizlilik politikasını kabul ediyorum.</label>
+                        </div>
+                    </form>
+                    <!-- Alternatif: Google Forms için iframe kullan -->
+                    <!-- <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" width="100%" height="400" frameborder="0">Yükleniyor...</iframe> -->
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
