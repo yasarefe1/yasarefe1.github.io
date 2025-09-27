@@ -1,53 +1,58 @@
-// waitlist.js
+// waitlist.js - Form işleme (isteğe bağlı ama profesyonel)
 
-document.getElementById("waitlist-form").addEventListener("submit", async function (e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const msg = document.getElementById("waitlist-message");
 
-  const email = document.getElementById("waitlist-email").value.trim();
-  const messageBox = document.getElementById("waitlist-message");
-  const btn = document.querySelector("#waitlist-form button");
-  const input = document.getElementById("waitlist-email");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const btn = form.querySelector("button");
+    const email = form.querySelector("input").value.trim();
 
-  // 1. Formun dolu olup olmadığı  if (!email.includes("@") || !email.includes(".")) {
-    showMessage(messageBox, "❌ Lütfen geçerli bir e-posta girin.", "red");
-    return;
-  }
-
-  // 2. Bekleme efekti
-  btn.disabled = true;
-  btn.textContent = "İşleniyor...";
-
-  // 3. Emaili sana göndermek için (kendi maile gönderelim!)
-  const formData = new FormData();
-  formData.append("email", email);
-
-  try {
-    // 🔗 AŞAĞIDA KENDİ E-POSTA API ADRESİNLE DEĞİŞTİR!
-    // Örneğin: https://us-central1-projen-adin.cloudfunctions.net/addToWaitlist
-    // VEYA: https://api.yoursite.com/waitlist
-    const res = await fetch("https://your-own-api.com/waitlist", {
-      method: "POST",
-      body: JSON.stringify({ email: email }),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    if (res.ok) {
-      showMessage(messageBox, "✅ Kaydoldun! Sizden haber alacağız.", "#5a67d8");
-      input.value = "";
-    } else {
-      showMessage(messageBox, "❌ Bir hata oluştu, lütfen daha sonra tekrar dene.", "red");
+    // 1. Doğrulama
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage("❌ Geçerli bir e-posta gir.", "red");
+      return;
     }
-  } catch (err) {
-    showMessage(messageBox, "⚠️ Bağlantı hatası. İnternetinizi kontrol edin.", "red");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Katıl";
+
+    // 2. Bekleme
+    btn.textContent = "İşleniyor...";
+    btn.disabled = true;
+
+    // 3. Netlify'e gönder
+    const formData = new FormData(form);
+    fetch("/", {
+      method: "POST",
+      headers: { "Accept": "application/json" },
+      body: formData
+    })
+      .then(res => {
+        if (res.ok) {
+          showMessage("✅ Kaydoldun! Sizden haber alacağız.", "#5a67d8");
+          form.reset();
+        } else {
+          res.json().then(d => {
+            showMessage(
+              d.error && d.error.includes("duplicate")
+                ? "❌ Zaten kayıtlısın!"
+                : "❌ Bir hata oluştu.",
+              "red"
+            );
+          });
+        }
+      })
+      .catch(() => {
+        showMessage("⚠️ Bağlantı hatası.", "red");
+      })
+      .finally(() => {
+        btn.textContent = "Katıl";
+        btn.disabled = false;
+      });
+  });
+
+  function showMessage(text, color) {
+    msg.style.color = color;
+    msg.textContent = text;
+    setTimeout(() => { msg.textContent = ""; }, 7000);
   }
 });
-
-function showMessage(box, text, color) {
-  box.style.color = color;
-  box.textContent = text;
-  box.style.display = "block";
-  setTimeout(() => (box.style.display = "none"), 7000);
-}
