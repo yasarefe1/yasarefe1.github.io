@@ -1,118 +1,149 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çevik Yazılım | Erken Erişim</title>
-    <style>
-        :root {
-            --ana-renk: #4361ee;
-            --koyu-renk: #3a0ca3;
-            --acik-renk: #f72585;
-            --arkaplan: #f8f9fa;
-        }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--arkaplan);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 2rem;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: var(--koyu-renk);
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-        }
-        p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-        .waitlist-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        input, button {
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--ana-renk);
-            box-shadow: 0 0 0 2px rgba(67,97,238,0.2);
-        }
-        button {
-            background: var(--ana-renk);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: var(--koyu-renk);
-        }
-        .success-message {
-            color: #4CAF50;
-            margin-top: 1rem;
-            display: none;
-        }
-        .sosyal-medya {
-            margin-top: 2rem;
-        }
-        .sosyal-medya a {
-            margin: 0 10px;
-            color: var(--ana-renk);
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Adın | Bekleme Listesi</title>
+  <!-- Netlify Forms için gerekli -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelector("form").addEventListener("submit", function (e) {
+        const btn = this.querySelector("button");
+        btn.textContent = "İşleniyor...";
+        btn.disabled = true;
+      });
+    });
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #waitlist {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+      color: #3a3a3a;
+    }
+    p {
+      color: #6c757d;
+      font-size: 1.05rem;
+      margin-bottom: 26px;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 13px;
+      font-size: 1rem;
+      border: 1.4px solid #e0e0e0;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input[type="email"]:focus {
+      border-color: #5a67d8;
+    }
+    button {
+      width: 100%;
+      padding: 13px;
+      font-size: 1.05rem;
+      background: #5a67d8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #434aa8;
+    }
+    button:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+    }
+    #waitlist-message {
+      margin-top: 15px;
+      font-weight: 500;
+      color: #5a67d8;
+      min-height: 22px;
+      font-size: 0.98rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Çevik Yazılım Dünyasına Katıl</h1>
-        <p>Ürünlerimizin <strong>erken erişim</strong> listesine kaydolun. Birlikte <strong>gelişelim</strong>!</p>
+  <section id="waitlist">
+    <h2>Sitem Henüz Yolda!</h2>
+    <p>En yeni güncellemeleri ilk sen al. E-postanı gir.</p>
 
-        <form class="waitlist-form" id="waitlistForm">
-            <input type="email" id="email" placeholder="E-posta adresinizi girin" required>
-            <button type="submit">Katıl</button>
-        </form>
-        <div class="success-message" id="successMessage">
-            ✅ Başarıyla eklendiniz! Sizi bilgilendireceğiz.
-        </div>
+    <!-- EN ÖNEMLİ: netlify ekleyin -->
+    <form netlify>
+      <input type="email" name="email" placeholder="E-posta adresin" required />
+      <button type="submit">Listeye Katıl</button>
+    </form>
+    <div id="waitlist-message"></div>
+  </section>
 
-        <div class="sosyal-medya">
-            <a href="https://github.com/sizin-kullaniciadiniz" target="_blank">GitHub</a>
-            <a href="mailto:iletisim@sizin-emailiniz.com">İletişim</a>
-        </div>
-    </div>
+  <!-- Netlify başarı kontrolü -->
+  <script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = this;
+      const msg = document.getElementById("waitlist-message");
+      const btn = form.querySelector("button");
+      const email = form.querySelector("input").value.trim();
 
-    <script>
-        document.getElementById("waitlistForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const successMsg = document.getElementById("successMessage");
-            
-            // 📌 Gerçek kullanımda: Burada bir API ile e-posta gönderilmeli!
-            console.log("Kayıt e-posta:", email);
-            
-            this.reset();
-            successMsg.style.display = "block";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.style.color = "red";
+        msg.textContent = "❌ Geçerli bir e-posta gir.";
+        btn.textContent = "Katıl";
+        btn.disabled = false;
+        return;
+      }
+
+      const formData = new FormData(form);
+      fetch("/", {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: formData
+      })
+        .then(res => {
+          if (res.ok) {
+            msg.style.color = "#5a67d8";
+            msg.textContent = "✅ Kaydoldun! Sizden haber alacağız.";
+            form.reset();
+          } else {
+            res.json().then(d => {
+              msg.style.color = "red";
+              msg.textContent = d.error && d.error.includes("duplicate")
+                ? "❌ Zaten kayıtlısın!"
+                : "❌ Bir hata oluştu.";
+            });
+          }
+        })
+        .catch(() => {
+          msg.style.color = "red";
+          msg.textContent = "⚠️ Bağlantı hatası.";
+        })
+        .finally(() => {
+          btn.textContent = "Katıl";
+          btn.disabled = false;
         });
-    </script>
+    });
+  </script>
 </body>
 </html>
