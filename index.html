@@ -3,66 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yasaref Waitlist - Erken Erişim</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Çevik Yazılım | Erken Erişim</title>
     <style>
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; font-family: 'Arial', sans-serif; }
-        .hero { padding: 100px 0; color: white; text-align: center; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; animation: fadeInUp 1s ease; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .hero p { font-size: 1.3rem; margin-bottom: 30px; animation: fadeInUp 1s ease 0.3s both; }
-        .stats { font-size: 1.1rem; margin-bottom: 40px; animation: fadeInUp 1s ease 0.5s both; }
-        .hero img { max-width: 400px; width: 100%; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeInUp 1s ease 0.1s both; }
-        .form-control { border-radius: 50px; padding: 15px 25px; font-size: 1.2rem; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: box-shadow 0.3s; }
-        .form-control:focus { box-shadow: 0 4px 25px rgba(255,255,255,0.2); }
-        .btn-primary { background: linear-gradient(45deg, #ff6b6b, #ee5a52); border: none; border-radius: 50px; padding: 15px 50px; font-size: 1.2rem; transition: all 0.3s; box-shadow: 0 5px 15px rgba(255,107,107,0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,107,107,0.6); }
-        .form-check-label { font-size: 0.9rem; opacity: 0.9; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-        #counter { color: #ffd700; font-weight: bold; font-size: 1.4rem; }
+        :root {
+            --ana-renk: #4361ee;
+            --koyu-renk: #3a0ca3;
+            --acik-renk: #f72585;
+            --arkaplan: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--arkaplan);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--koyu-renk);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input, button {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--ana-renk);
+            box-shadow: 0 0 0 2px rgba(67,97,238,0.2);
+        }
+        button {
+            background: var(--ana-renk);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: var(--koyu-renk);
+        }
+        .success-message {
+            color: #4CAF50;
+            margin-top: 1rem;
+            display: none;
+        }
+        .sosyal-medya {
+            margin-top: 2rem;
+        }
+        .sosyal-medya a {
+            margin: 0 10px;
+            color: var(--ana-renk);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <section class="hero">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <!-- Ücretsiz resim ekle (Unsplash'tan, projene göre değiştir) -->
-                    <img src="https://source.unsplash.com/random/800x400/?innovation,tech" alt="Yasaref Projesi" class="img-fluid">
-                    <h1>Hey, Harika Bir Şey Geliyor!</h1>
-                    <p class="lead">Yasaref projesiyle erken erişim için bekleme listesine katıl. E-posta'nı bırak, ilk haberi sen al.</p>
-                    <div class="stats">
-                        <p id="counter">1,247 kişi zaten katıldı! Sen de aralarına katıl.</p> <!-- JS ile güncellenecek -->
-                    </div>
-                    <!-- Mailchimp Form (action URL'ini değiştir) -->
-                    <form action="https://your-mailchimp-form-url-goes-here" method="post" novalidate class="needs-validation" id="waitlistForm">
-                        <div class="input-group mb-3 justify-content-center">
-                            <input type="email" class="form-control" name="EMAIL" placeholder="E-posta adresin" required>
-                            <button class="btn btn-primary" type="submit">Katıl!</button>
-                        </div>
-                        <div class="form-check text-center">
-                            <input class="form-check-input" type="checkbox" id="privacy" required>
-                            <label class="form-check-label" for="privacy">Gizlilik politikasını kabul ediyorum.</label>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
+        <h1>🚀 Çevik Yazılım Dünyasına Katıl</h1>
+        <p>Ürünlerimizin <strong>erken erişim</strong> listesine kaydolun. Birlikte <strong>gelişelim</strong>!</p>
+
+        <form class="waitlist-form" id="waitlistForm">
+            <input type="email" id="email" placeholder="E-posta adresinizi girin" required>
+            <button type="submit">Katıl</button>
+        </form>
+        <div class="success-message" id="successMessage">
+            ✅ Başarıyla eklendiniz! Sizi bilgilendireceğiz.
+        </div>
+
+        <div class="sosyal-medya">
+            <a href="https://github.com/sizin-kullaniciadiniz" target="_blank">GitHub</a>
+            <a href="mailto:iletisim@sizin-emailiniz.com">İletişim</a>
+        </div>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Sayaç Animasyonu (fake, gerçek için backend lazım) -->
+
     <script>
-        let count = 1247;
-        function updateCounter() {
-            count += Math.floor(Math.random() * 5) + 1; // Her 10 sn +1-5
-            document.getElementById('counter').innerText = count.toLocaleString() + ' kişi zaten katıldı! Sen de aralarına katıl.';
-        }
-        setInterval(updateCounter, 10000); // 10 sn'de bir güncelle
-        // Form submit animasyonu
-        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Test için, gerçekte kaldır
-            alert('Teşekkürler! Listeye eklendin 🚀'); // Gerçek entegrasyon için değiştir
+        document.getElementById("waitlistForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const successMsg = document.getElementById("successMessage");
+            
+            // 📌 Gerçek kullanımda: Burada bir API ile e-posta gönderilmeli!
+            console.log("Kayıt e-posta:", email);
+            
+            this.reset();
+            successMsg.style.display = "block";
         });
     </script>
 </body>
