@@ -1,14 +1,79 @@
-/* Waitlist form üzerine efektler */
-#waitlist input[type="email"]:focus {
-  border-color: #5a67d8;
-  box-shadow: 0 2px 8px rgba(90,103,216,0.2);
+/* style.css - Ayrı dosyada CSS (isteğe bağlı ama profesyonel) */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#waitlist button:hover {
+#waitlist {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.7rem;
+  margin-bottom: 12px;
+  color: #3a3a3a;
+}
+
+p {
+  color: #6c757d;
+  font-size: 1.05rem;
+  margin-bottom: 26px;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 13px;
+  font-size: 1rem;
+  border: 1.4px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input[type="email"]:focus {
+  border-color: #5a67d8;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  font-size: 1.05rem;
+  background: #5a67d8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
   background: #434aa8;
 }
 
-#waitlist button:disabled {
+button:disabled {
   background: #a0aec0;
   cursor: not-allowed;
+}
+
+#waitlist-message {
+  margin-top: 15px;
+  font-weight: 500;
+  color: #5a67d8;
+  min-height: 22px;
+  font-size: 0.98rem;
 }
