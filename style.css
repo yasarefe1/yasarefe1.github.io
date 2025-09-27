@@ -1,0 +1,14 @@
+/* Waitlist form üzerine efektler */
+#waitlist input[type="email"]:focus {
+  border-color: #5a67d8;
+  box-shadow: 0 2px 8px rgba(90,103,216,0.2);
+}
+
+#waitlist button:hover {
+  background: #434aa8;
+}
+
+#waitlist button:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
