@@ -1,127 +1,61 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bekleme Listesi</title>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #waitlist {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      width: 320px;
-      text-align: center;
-    }
-    h2 {
-      font-size: 1.6rem;
-      margin-bottom: 10px;
-      color: #3a3a3a;
-    }
-    p {
-      color: #6c757d;
-      margin-bottom: 24px;
-      font-size: 1.05rem;
-    }
-    input[type="email"] {
-      width: 100%;
-      padding: 13px;
-      font-size: 1rem;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      outline: none;
-    }
-    input[type="email"]:focus {
-      border-color: #5a67d8;
-    }
-    button {
-      width: 100%;
-      padding: 13px;
-      font-size: 1.05rem;
-      background: #5a67d8;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #434aa8;
-    }
-    #msg {
-      margin-top: 14px;
-      font-weight: 500;
-      color: #5a67d8;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yakında Geliyor | Proje Adı</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="aos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- ⭐ BU TEK BÖLÜM KALICI: WAITLIST FORM ⭐ -->
-  <section id="waitlist">
-    <h2>Sitem Henüz Yolda!</h2>
-    <p>En yeni sürüm için e-postanı gir.</p>
-    <!-- 🔴 DİKKAT: "netlify" YAZMALISIN, AYNI KALMALISIN 🔴 -->
-    <form netlify>
-      <input type="email" name="email" placeholder="E-posta adresin" required />
-      <button type="submit">Katıl</button>
-    </form>
-    <div id="msg"></div>
-  </section>
+  <!-- Arka Plan Particles -->
+  <div class="particles">
+    <span style="--i:11;"></span>
+    <span style="--i:12;"></span>
+    <span style="--i:24;"></span>
+    <span style="--i:10;"></span>
+    <span style="--i:14;"></span>
+    <span style="--i:23;"></span>
+    <span style="--i:18;"></span>
+    <span style="--i:16;"></span>
+    <span style="--i:19;"></span>
+    <span style="--i:20;"></span>
+    <span style="--i:22;"></span>
+    <span style="--i:25;"></span>
+    <span style="--i:18;"></span>
+    <span style="--i:21;"></span>
+    <span style="--i:15;"></span>
+    <span style="--i:13;"></span>
+  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.querySelector("form");
-      const msg = document.getElementById("msg");
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const btn = this.querySelector("button");
-        const email = this.querySelector("input").value;
-        if (!email.includes("@") || !email.includes(".")) {
-          msg.style.color = "red";
-          msg.textContent = "❌ Geçerli bir e-posta gir.";
-          return;
-        }
-        btn.disabled = true;
-        btn.textContent = "İşleniyor...";
-        const fd = new FormData();
-        fd.append("email", email);
-        fetch("/", {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: fd
-        }).then(r => {
-          if (r.ok) {
-            msg.style.color = "#5a67d8";
-            msg.textContent = "✅ Kaydoldun! Sizden haber alacağız.";
-            this.reset();
-          } else {
-            r.json().then(d => {
-              msg.style.color = "red";
-              msg.textContent = d.error && d.error.includes("duplicate") 
-                ? "❌ Zaten kayıtlısın!" 
-                : "❌ Bir hata oluştu.";
-            });
-          }
-        }).catch(() => {
-          msg.style.color = "red";
-          msg.textContent = "⚠️ Bağlantı hatası.";
-        }).finally(() => {
-          btn.disabled = false;
-          btn.textContent = "Katıl";
-        });
-      });
-    });
-  </script>
+  <div class="container">
+    <div class="content" data-aos="fade-up">
+      <h1>Yakında Geliyor!</h1>
+      <p>Yeni projemize katılın ve ilk erken erişimi siz alın.</p>
+
+      <div class="counter" data-aos="zoom-in">
+        <h2 id="counter">0</h2>
+        <p>Kayıtlı Kullanıcı</p>
+      </div>
+
+      <form id="waitlist-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="E-posta adresinizi girin" required />
+        <button type="submit">Bekleme Listesine Katıl</button>
+      </form>
+
+      <div class="notification" id="notification">E-postanız alındı! 🎉</div>
+      <div class="error" id="error">Geçerli bir e-posta girin.</div>
+
+      <div class="socials" data-aos="fade-up">
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="mailto:info@projeadi.com">E-posta</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="aos.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
