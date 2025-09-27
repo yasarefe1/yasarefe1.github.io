@@ -5,21 +5,38 @@ AOS.init({
   once: true,
 });
 
-// Sayım Animasyonu
+// Sayacı localStorage'dan al veya sıfırla
+let counterValue = parseInt(localStorage.getItem('waitlistCount')) || 0;
 const counterElement = document.getElementById('counter');
-let counterValue = 0;
-const targetValue = 1234; // Gerçek sayı buraya gelebilir (API'den vs)
 
-const updateCounter = () => {
-  if (counterValue < targetValue) {
-    counterValue += 1;
-    counterElement.textContent = counterValue;
-    setTimeout(updateCounter, 20);
-  }
+// Sayacı animasyonlu yükseltme
+const animateCounter = (start, end) => {
+  let current = start;
+  const increment = Math.ceil((end - start) / 50);
+
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= end) {
+      current = end;
+      clearInterval(timer);
+    }
+    counterElement.textContent = current;
+  }, 20);
 };
 
-// Sayfa yüklendiğinde başlat
-window.onload = updateCounter;
+// Sayacı güncelle
+const updateCounterDisplay = () => {
+  animateCounter(counterValue - 1, counterValue);
+};
+
+// Sayfa yüklendiğinde göster
+window.onload = () => {
+  if (counterValue > 0) {
+    updateCounterDisplay();
+  } else {
+    counterElement.textContent = counterValue;
+  }
+};
 
 // Waitlist formu
 document.getElementById('waitlist-form').addEventListener('submit', function(e) {
@@ -43,6 +60,11 @@ document.getElementById('waitlist-form').addEventListener('submit', function(e) 
     }
   })
   .then(() => {
+    // Sayacı artır
+    counterValue += 1;
+    localStorage.setItem('waitlistCount', counterValue);
+    animateCounter(counterValue - 1, counterValue); // Ekranı animasyonlu güncelle
+
     document.getElementById('notification').style.display = 'block';
     document.getElementById('error').style.display = 'none';
     this.reset();
