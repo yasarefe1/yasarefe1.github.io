@@ -6,7 +6,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
   color: white;
   min-height: 100vh;
   display: flex;
@@ -138,13 +138,14 @@ button:hover {
   transform: translate(-50%, -50%);
   width: 4px;
   height: 4px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
-              0 0 0 8px rgba(255, 255, 255, 0.05),
-              0 0 20px rgba(255, 255, 255, 1);
-  animation: animate 10s linear infinite;
-  animation-duration: calc(125s / var(--i));
+  box-shadow: 
+    0 0 0 4px rgba(76, 175, 80, 0.1),
+    0 0 0 8px rgba(76, 175, 80, 0.05),
+    0 0 20px rgba(76, 175, 80, 0.5);
+  animation: animate 8s linear infinite;
+  animation-duration: calc(10s / var(--i));
 }
 
 @keyframes animate {
@@ -152,7 +153,10 @@ button:hover {
     transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    transform: translate(calc(-50% + 1000px * cos(var(--i) * 1deg)), calc(-50% + 1000px * sin(var(--i) * 1deg)));
+    transform: translate(
+      calc(-50% + 800px * cos(var(--i) * 1deg)), 
+      calc(-50% + 800px * sin(var(--i) * 1deg))
+    );
   }
 }
 
