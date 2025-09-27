@@ -3,17 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Site Adın | Bekleme Listesi</title>
-  <!-- Netlify Forms için gerekli -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelector("form").addEventListener("submit", function (e) {
-        const btn = this.querySelector("button");
-        btn.textContent = "İşleniyor...";
-        btn.disabled = true;
-      });
-    });
-  </script>
+  <title>Bekleme Listesi</title>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -30,29 +20,27 @@
       padding: 40px 30px;
       border-radius: 16px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      max-width: 360px;
-      width: 100%;
+      width: 320px;
       text-align: center;
     }
     h2 {
-      font-size: 1.7rem;
-      margin-bottom: 12px;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
       color: #3a3a3a;
     }
     p {
       color: #6c757d;
+      margin-bottom: 24px;
       font-size: 1.05rem;
-      margin-bottom: 26px;
     }
     input[type="email"] {
       width: 100%;
       padding: 13px;
       font-size: 1rem;
-      border: 1.4px solid #e0e0e0;
+      border: 1.5px solid #e0e0e0;
       border-radius: 8px;
       margin-bottom: 12px;
       outline: none;
-      transition: border 0.2s;
     }
     input[type="email"]:focus {
       border-color: #5a67d8;
@@ -67,82 +55,72 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
     }
     button:hover {
       background: #434aa8;
     }
-    button:disabled {
-      background: #a0aec0;
-      cursor: not-allowed;
-    }
-    #waitlist-message {
-      margin-top: 15px;
+    #msg {
+      margin-top: 14px;
       font-weight: 500;
       color: #5a67d8;
-      min-height: 22px;
-      font-size: 0.98rem;
     }
   </style>
 </head>
 <body>
+  <!-- ⭐ BU TEK BÖLÜM KALICI: WAITLIST FORM ⭐ -->
   <section id="waitlist">
     <h2>Sitem Henüz Yolda!</h2>
-    <p>En yeni güncellemeleri ilk sen al. E-postanı gir.</p>
-
-    <!-- EN ÖNEMLİ: netlify ekleyin -->
+    <p>En yeni sürüm için e-postanı gir.</p>
+    <!-- 🔴 DİKKAT: "netlify" YAZMALISIN, AYNI KALMALISIN 🔴 -->
     <form netlify>
       <input type="email" name="email" placeholder="E-posta adresin" required />
-      <button type="submit">Listeye Katıl</button>
+      <button type="submit">Katıl</button>
     </form>
-    <div id="waitlist-message"></div>
+    <div id="msg"></div>
   </section>
 
-  <!-- Netlify başarı kontrolü -->
   <script>
-    document.querySelector("form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = this;
-      const msg = document.getElementById("waitlist-message");
-      const btn = form.querySelector("button");
-      const email = form.querySelector("input").value.trim();
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        msg.style.color = "red";
-        msg.textContent = "❌ Geçerli bir e-posta gir.";
-        btn.textContent = "Katıl";
-        btn.disabled = false;
-        return;
-      }
-
-      const formData = new FormData(form);
-      fetch("/", {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: formData
-      })
-        .then(res => {
-          if (res.ok) {
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector("form");
+      const msg = document.getElementById("msg");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const btn = this.querySelector("button");
+        const email = this.querySelector("input").value;
+        if (!email.includes("@") || !email.includes(".")) {
+          msg.style.color = "red";
+          msg.textContent = "❌ Geçerli bir e-posta gir.";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "İşleniyor...";
+        const fd = new FormData();
+        fd.append("email", email);
+        fetch("/", {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: fd
+        }).then(r => {
+          if (r.ok) {
             msg.style.color = "#5a67d8";
             msg.textContent = "✅ Kaydoldun! Sizden haber alacağız.";
-            form.reset();
+            this.reset();
           } else {
-            res.json().then(d => {
+            r.json().then(d => {
               msg.style.color = "red";
-              msg.textContent = d.error && d.error.includes("duplicate")
-                ? "❌ Zaten kayıtlısın!"
+              msg.textContent = d.error && d.error.includes("duplicate") 
+                ? "❌ Zaten kayıtlısın!" 
                 : "❌ Bir hata oluştu.";
             });
           }
-        })
-        .catch(() => {
+        }).catch(() => {
           msg.style.color = "red";
           msg.textContent = "⚠️ Bağlantı hatası.";
-        })
-        .finally(() => {
-          btn.textContent = "Katıl";
+        }).finally(() => {
           btn.disabled = false;
+          btn.textContent = "Katıl";
         });
+      });
     });
   </script>
 </body>
