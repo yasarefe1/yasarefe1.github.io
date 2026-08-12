@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d0f0e" />
+  <meta name="description" content="A small working prototype: turn normal email corrections into visible, reusable writing signals." />
+  <meta property="og:title" content="Scape Preference Memory — working prototype" />
+  <meta property="og:description" content="Edit one draft. See the signals. Watch the next draft start closer." />
+  <title>Scape Preference Memory</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="wordmark" href="#" aria-label="Scape Preference Memory home">
+      <span class="scape-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>scape</span>
+      <b>preference memory</b>
+    </a>
+    <div class="local-badge"><span></span> Independent prototype · no inbox access</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">A SMALL WORKING PROTOTYPE</p>
+        <h1>Your edits should improve<br><em>the next draft.</em></h1>
+      </div>
+      <div class="hero-note">
+        <span>20-SECOND INTERACTIVE LOOP</span>
+        <p>Edit one draft → inspect the writing signals → apply them to a completely different email. Runs locally; nothing is sent.</p>
+      </div>
+    </section>
+
+    <section class="demo-shell" aria-label="Interactive preference learning demo">
+      <div class="stage-rail" aria-label="Demo progress">
+        <button class="stage active" data-stage="1"><span>1</span><b>Edit one draft</b><small>Use a real correction</small></button>
+        <div class="rail-line"><i id="railProgress"></i></div>
+        <button class="stage" data-stage="2"><span>2</span><b>See the signals</b><small>Evidence, not certainty</small></button>
+        <div class="rail-line"><i></i></div>
+        <button class="stage" data-stage="3"><span>3</span><b>Next email</b><small>Watch them transfer</small></button>
+      </div>
+
+      <div class="app-frame">
+        <aside class="inbox-panel">
+          <div class="panel-title">
+            <div><span class="status-dot"></span><b>Inbox sandbox</b></div>
+            <button id="resetButton">Reset</button>
+          </div>
+          <div class="inbox-list">
+            <button class="mail-item active" data-mail="first">
+              <span class="avatar coral">M</span>
+              <span><b>Maya Chen</b><small>Thursday sync + deck</small><em>Could we move our call...</em></span>
+              <time>now</time>
+            </button>
+            <button class="mail-item locked" data-mail="second" id="secondMailButton" disabled>
+              <span class="avatar violet">L</span>
+              <span><b>Leo Martins</b><small>Quick launch update?</small><em>Can you send a short...</em></span>
+              <time>next</time>
+            </button>
+          </div>
+          <div class="privacy-note">
+            <span>⌁</span>
+            <div><b>Signals, not message history</b><small>Only compact observations are stored locally. Raw emails stay out of memory.</small></div>
+          </div>
+        </aside>
+
+        <section class="work-panel">
+          <div class="work-header">
+            <div>
+              <p id="stageKicker">STEP 1 · CORRECTION</p>
+              <h2 id="stageTitle" aria-live="polite">Edit one draft</h2>
+            </div>
+            <div class="memory-state"><span id="memoryPulse"></span><b id="memoryCount">0</b> <span id="memoryLabel">signals remembered</span></div>
+          </div>
+
+          <div class="stage-view" id="correctionView">
+            <article class="incoming-card">
+              <div class="sender-row"><span class="avatar coral">M</span><div><b>Maya Chen</b><small>maya@northstar.vc</small></div><time>10:42</time></div>
+              <h3>Thursday sync + deck</h3>
+              <p>Hey Yunus,<br><br>Could we move our call to Thursday at 3? If possible, please send the product deck before the call too.<br><br>Thanks,<br>Maya</p>
+            </article>
+
+            <div class="draft-grid">
+              <article class="draft-card muted-draft">
+                <div class="card-label"><span>SCAPE'S FIRST DRAFT</span><b>before learning</b></div>
+                <div class="mail-copy" id="originalDraft">Hello Maya —<br><br>Thank you so much for reaching out. Thursday at 3 works perfectly for me, and I would be more than happy to send over the product deck in advance of our scheduled conversation.<br><br>Warmly,<br>Yunus</div>
+              </article>
+              <article class="draft-card correction-card">
+                <div class="card-label"><span>YOUR CORRECTION · PRE-FILLED, EDITABLE</span><b class="live-label"><i></i> try changing it</b></div>
+                <textarea id="correctedDraft" aria-label="Edit Scape's draft">Hi Maya,
+
+Thursday at 3 works. I'll send the deck before the call.
+
+Best,
+Yunus</textarea>
+                <div class="edit-stats"><span id="wordDelta">−20 words</span><span id="sentenceStat">2 short sentences</span><span id="savedState">not learned yet</span></div>
+              </article>
+            </div>
+
+            <button class="primary-action" id="learnButton"><span>Use this correction</span><b>⌁</b></button>
+          </div>
+
+          <div class="stage-view hidden" id="memoryView">
+            <div class="memory-intro">
+              <div class="memory-orb"><span></span></div>
+              <div><p>PROVISIONAL WRITING SIGNALS</p><h3 id="memoryHeadline">Signals found in this edit.</h3><small>One edit is one observation—not certainty. Repeated edits reinforce or challenge each signal.</small></div>
+            </div>
+            <div class="preference-grid" id="preferenceGrid"></div>
+            <div class="diff-proof">
+              <div class="diff-head"><span>WHAT SCAPE COMPARED</span><span>original → correction</span></div>
+              <div class="diff-lines" id="diffLines"></div>
+            </div>
+            <button class="primary-action" id="nextEmailButton"><span>Apply them to a new email</span><b>→</b></button>
+          </div>
+
+          <div class="stage-view hidden" id="transferView">
+            <article class="incoming-card second-incoming">
+              <div class="sender-row"><span class="avatar violet">L</span><div><b>Leo Martins</b><small>leo@arcade.so</small></div><time>11:18</time></div>
+              <h3>Quick launch update?</h3>
+              <p>Hi Yunus,<br><br>Can you send a short update on the launch? I mainly need the current beta count and what you're shipping next.<br><br>Cheers,<br>Leo</p>
+            </article>
+            <div class="transfer-label"><span></span><b>Preference transfer</b><small>same memory · completely different email</small></div>
+            <div class="comparison-grid">
+              <article class="comparison-card baseline">
+                <div class="card-label"><span>GENERIC DRAFT</span><b>same facts</b></div>
+                <div class="mail-copy" id="baselineDraft"></div>
+              </article>
+              <article class="comparison-card personalized">
+                <div class="card-label"><span>WITH INFERRED PREFERENCES</span><b><i></i> provisional</b></div>
+                <div class="mail-copy" id="personalizedDraft"></div>
+                <div class="applied-rules" id="appliedRules"></div>
+              </article>
+            </div>
+            <div class="result-bar">
+              <div><span class="check">✓</span><div><b>A better starting point—still yours to review.</b><small id="resultSummary">Signals transferred from one correction.</small></div></div>
+              <button id="backToEditButton">Try a different correction</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="proof-row">
+      <div><span>01</span><b>Evidence-linked</b><small>Every signal points back to an edit.</small></div>
+      <div><span>02</span><b>Provisional by default</b><small>One correction is observed once, never treated as certainty.</small></div>
+      <div><span>03</span><b>Style, not content</b><small>The new reply keeps the requested facts.</small></div>
+      <div><span>04</span><b>Easy to undo</b><small>Inspect, change, or reset the local memory.</small></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
