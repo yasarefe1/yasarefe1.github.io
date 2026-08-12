@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d0f0e" />
-  <meta name="description" content="A small working prototype: turn normal email corrections into visible, reusable writing signals." />
-  <meta property="og:title" content="Scape Preference Memory — working prototype" />
-  <meta property="og:description" content="Edit one draft. See the signals. Watch the next draft start closer." />
+  <meta name="description" content="A working prototype for Scape: learn from email corrections so every new draft starts closer to the user." />
+  <meta property="og:title" content="A correction-learning prototype for Scape" />
+  <meta property="og:description" content="Edit one draft. Scape finds the writing signals and applies them to a completely different email." />
   <title>Scape Preference Memory</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -24,16 +24,18 @@
   <main>
     <section class="hero">
       <div>
-        <p class="eyebrow">A SMALL WORKING PROTOTYPE</p>
-        <h1>Your edits should improve<br><em>the next draft.</em></h1>
+        <p class="eyebrow">A WORKING PROTOTYPE FOR SCAPE · BUILT BY YUNUS</p>
+        <h1>Scape learns from<br><em>every correction.</em></h1>
       </div>
       <div class="hero-note">
-        <span>20-SECOND INTERACTIVE LOOP</span>
-        <p>Edit one draft → inspect the writing signals → apply them to a completely different email. Runs locally; nothing is sent.</p>
+        <span>THE IDEA</span>
+        <p>Turn the edits users already make into writing signals, so every new draft starts a little closer to them.</p>
+        <div class="hero-flow" aria-label="Demo steps"><b>Edit</b><i>→</i><b>Learn</b><i>→</i><b>New draft</b></div>
+        <a class="hero-cta" href="#demo">Start the 20-second demo <b>↓</b></a>
       </div>
     </section>
 
-    <section class="demo-shell" aria-label="Interactive preference learning demo">
+    <section class="demo-shell" id="demo" aria-label="Interactive preference learning demo">
       <div class="stage-rail" aria-label="Demo progress">
         <button class="stage active" data-stage="1"><span>1</span><b>Edit one draft</b><small>Use a real correction</small></button>
         <div class="rail-line"><i id="railProgress"></i></div>
